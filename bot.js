@@ -37,11 +37,16 @@ function tweetEvent(eventMsg) {
 	var from = eventMsg.user.screen_name;
 	console.log(from);
 	
+	if (text.includes('@celifane')) {
+		postTweet();
+	} else {
+		console.log('post not triggered');
+	}
 };
 
 //this var holds what the program will tweet to the account
 var tweet = {
-	status: ''
+	status: 'I see some one tweeted me'
 };
 
 function postTweet () {
