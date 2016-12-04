@@ -17,3 +17,18 @@ T.get('search/tweets', { q: '#space', count: 2 }, function(err, data, response) 
 		console.log(tweets[i].text);
 	}
 });
+
+var tweet = {
+	status: 'code test 2'
+};
+
+T.post('statuses/update', tweet, tweeted); 
+
+function tweeted(err, data, response){
+  if (err) {
+  	console.log('it is broken');
+  } else {
+  	console.log('it worked');
+  }
+}
+
