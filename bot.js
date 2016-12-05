@@ -16,6 +16,32 @@ var stream = T.stream('user');
 stream.on('tweet', tweetEvent);
 
 
+//---------Weather dependencies-------------------------------
+
+var Weather = require("weather-zip");
+ 
+ //
+weather = new Weather("d2e6bdc7b0ff7698eb14570d76bd23de");
+
+//----------------------------------------
+
+//takes the zip and pulls the corrisponding data, then console logs it.
+weather.get("19128").then(function (data){
+  console.log(data);
+});
+
+
+//tweet comes in via stream and put into a variable
+
+//variable is piped into function after it is verified to be a zip
+
+//information comes back and is then set to a variable for temp/rain%/wind speed
+
+//weather variables are put into tweet function that is then triggered.
+
+
+
+
 //this function dictates what happens when some one tweets the bot
 function tweetEvent(eventMsg) {
 

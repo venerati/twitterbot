@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/venerati/twitterbot#readme",
   "dependencies": {
-    "twit": "^2.2.5"
+    "twit": "^2.2.5",
+    "weather-zip": "^1.0.0"
   }
 }
