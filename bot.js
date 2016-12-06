@@ -1,46 +1,30 @@
 console.log('bot.js has started');
 
+//-----Twitter dependencies----------------------
 var Twit = require('twit');
 
 //this references a twitterconfig.js that has all the auth keys needed to connnect to twitter.
 //this is kept seperate for security reasons.
-var Tconfig = require('./twitterconfig');
+var tConfig = require('./twitterconfig');
 
 //object that handles the twitter account info.
-var T = new Twit(Tconfig);
+var T = new Twit(tConfig);
 
 //stream is set up to look at the bot's user account
 var stream = T.stream('user');
-
-//anytime some one tweets at the bot it will trigger tweetEvent
-stream.on('tweet', tweetEvent);
 
 
 //---------Weather dependencies-------------------------------
 
 var Weather = require("weather-zip");
  
- //
 weather = new Weather("d2e6bdc7b0ff7698eb14570d76bd23de");
 
 //----------------------------------------
 
-//takes the zip and pulls the corrisponding data, then console logs it.
-weather.get("19128").then(function (data){
-  console.log(data);
-});
 
-
-//tweet comes in via stream and put into a variable
-
-//variable is piped into function after it is verified to be a zip
-
-//information comes back and is then set to a variable for temp/rain%/wind speed
-
-//weather variables are put into tweet function that is then triggered.
-
-
-
+//anytime some one tweets at the bot it will trigger tweetEvent
+stream.on('tweet', tweetEvent);
 
 //this function dictates what happens when some one tweets the bot
 function tweetEvent(eventMsg) {
@@ -51,15 +35,42 @@ function tweetEvent(eventMsg) {
 
 	//this var holds what the program will tweet to the account
 	var tweet = {
-		status:'I see ' + from + ' wishes to speak to the bot'
+		status:''
 	};
 
-	//if the stream sees that some one tweeted @celifane then it triggers the postTweet function
-	if (text.includes('@celifane')) {
-		postTweet();
-	} else {
-		console.log('postTweet not triggered');
-	};
+	//take the text variable and just leave numbers.
+    var zip = text.replace(/\D/g,'');
+
+    //count the string legnth
+    var zipLength = zip.length;
+
+   	//takes the zip and pulls the corrisponding data, then console logs it.
+	weather.get(zip).then(function (data){
+
+	var temp = data.currently.temperature;
+	var windSpeed = data.currently.windSpeed;
+
+		//see if the zipLength variable contains 5 numbers.
+    	if (zipLength === 5) {
+    		console.log('zip works')
+    	
+    		tweet ={
+    			status:'@' + from + ' it is ' + temp + ' degrees, wind speed is ' + windSpeed + ' MPH in ' + zip  
+    		};
+
+    		postTweet();
+    	} else {
+    		console.log('zip does not work')
+
+    		tweet ={
+    			status:'@' + from + ' Your tweet can only contain 5 numbers'
+    		};
+
+    		postTweet();
+    	};
+	});
+
+    
 
 	function postTweet () {
 
