@@ -55,7 +55,7 @@ function tweetEvent(eventMsg) {
     		console.log('zip works')
     	
     		tweet ={
-    			status:'@' + from + ' it is ' + temp + ' degrees, wind speed is ' + windSpeed + ' MPH in ' + zip  
+    			status:'Hello @' + from + ' it is currently ' + temp + 'F degrees, wind speed is ' + windSpeed + ' MPH in ' + zip  
     		};
 
     		postTweet();
